@@ -62,7 +62,7 @@ const SignUpForm = () => {
                     label="Email"
                     type="text" 
                     required onChange={handleChange} 
-                    name="displayName" 
+                    name="email" 
                     value={displayName} 
                 />
 
@@ -70,7 +70,7 @@ const SignUpForm = () => {
                     label="Password"
                     type="text" 
                     required onChange={handleChange} 
-                    name="displayName" 
+                    name="password" 
                     value={displayName} 
                 />
 
@@ -78,7 +78,7 @@ const SignUpForm = () => {
                     label="Confirm Password"
                     type="text" 
                     required onChange={handleChange} 
-                    name="displayName" 
+                    name="confirmPassword" 
                     value={displayName} 
                 />
 
