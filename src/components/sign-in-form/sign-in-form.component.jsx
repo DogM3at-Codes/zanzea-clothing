@@ -31,13 +31,27 @@ const SignInForm = () => {
         event.preventDefault();
 
         try {
-            const response = await signInAuthUserWithEmailAndPassword(email, password);
-            console.log(response);
-
+            await signInAuthUserWithEmailAndPassword(email, password);
             resetFormFields();
         } catch (ex) {
-            console.log(ex.message);
+            switch (ex.code) {
+                case 'auth/wrong-password':
+                    alert('Incorrect password for email');
+                    break;
+
+                case 'auth/user-not-found':
+                    alert('No user associated wiith this email');
+                    break;
+
+                default:
+                    console.log(ex.code);
+            }
         }
+    };
+
+    const handleChange = (event) => {
+        const {name, value} = event.target;
+        setFormFields({...formFields, [name]: value});
     };
 
     return (
@@ -47,14 +61,14 @@ const SignInForm = () => {
                 <FormInput
                     label="Email"
                     type="text" 
-                    required onChange=""
+                    required onChange={handleChange}
                     name="email" 
                     value={email} 
                 />
                 <FormInput
                     label="Password"
                     type="text" 
-                    required onChange=""    
+                    required onChange={handleChange}  
                     name="password" 
                     value={password} 
                 />
@@ -62,7 +76,7 @@ const SignInForm = () => {
                     <Button type="submit">
                         Sign in
                     </Button>
-                    <Button buttonType="google" onClick={logGoogleUser}>
+                    <Button type="button" buttonType="google" onClick={logGoogleUser}>
                         Google Sign In
                     </Button>
                 </div>
