@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+
+import { UserContext } from "../../contexts/user.context";
+
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import './sign-in-form.styles.scss';
@@ -18,6 +21,8 @@ const SignInForm = () => {
     const [formFields, setFormFields]  =  useState(defaultFormFields);
     const {email, password} = formFields;
 
+    const {setCurrentUser} = useContext(UserContext);
+
     const logGoogleUser = async() => {
         const { user } = await signInWithGooglePopup();
         await createUserDocumentFromAuth(user);
@@ -31,7 +36,8 @@ const SignInForm = () => {
         event.preventDefault();
 
         try {
-            await signInAuthUserWithEmailAndPassword(email, password);
+            const {user} = await signInAuthUserWithEmailAndPassword(email, password);
+            setCurrentUser(user)
             resetFormFields();
         } catch (ex) {
             switch (ex.code) {
@@ -67,7 +73,7 @@ const SignInForm = () => {
                 />
                 <FormInput
                     label="Password"
-                    type="text" 
+                    type="password" 
                     required onChange={handleChange}  
                     name="password" 
                     value={password} 
